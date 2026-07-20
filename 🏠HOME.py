@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 
 st.set_page_config(page_title="UFC Fight Outcome Prediction", page_icon="🥊", layout="wide")
 
-st.logo("assets/logo_wide.png", size="large", icon_image="assets/logo_icon.png")
+st.logo("harry.png", size="large", icon_image="harry.png")
 
 RED = "#E10600"
 BLUE = "#1e6fe0"
