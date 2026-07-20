@@ -1,0 +1,172 @@
+FLOW OF THE PROJECT:
+
+Historical UFC Dataset
+          │
+          ▼
+Data Cleaning
+          │
+          ▼
+Exploratory Data Analysis
+          │
+          ▼
+Interactive Streamlit Dashboard
+          │
+          ▼
+Select Red & Blue Fighters
+          │
+          ▼
+Compare Fighter Statistics
+          │
+          ▼
+Rule-Based Score Calculation
+          │
+          ▼
+Display Predicted Winner Name
+
+
+Streamlit:
+
+🏠 Dashboard 1: Home
+
+Purpose: Introduce the project.
+
+Include:
+
+UFC banner/logo
+Project title
+Project objective
+Total fights
+Total fighters
+Total features
+Navigation instructions
+📊 Dashboard 2: Dataset Overview
+
+Purpose: Show that you understand the dataset.
+
+Include:
+
+Dataset shape
+Column names
+Data types
+Missing values (0)
+Duplicate rows (0)
+Sample data (head())
+Statistical summary (describe())
+📈 Dashboard 3: Exploratory Data Analysis (EDA)
+
+Purpose: Show patterns in the data.
+
+Include graphs such as:
+
+Weight distribution
+Height distribution
+Reach distribution
+Age distribution
+Win methods (KO, Submission, Decision)
+Fight type distribution (Top 10)
+🔴 Dashboard 4: Red vs Blue Comparison
+
+Purpose: Compare fighters by corner.
+
+Show:
+
+Age comparison
+Height comparison
+Weight comparison
+Reach comparison
+
+Visuals:
+
+Boxplots
+Histograms
+Bar charts
+🥊 Dashboard 5: Fighter Search
+
+Purpose: Make the app interactive.
+
+User selects a fighter.
+
+Display:
+
+Fighter name
+Total wins
+Height
+Weight
+Reach
+Age
+Strike accuracy
+Takedown accuracy
+Win streak
+Career statistics
+🏆 Dashboard 6: Winner Prediction
+
+Purpose: The main feature of your project.
+
+User selects:
+
+Red Fighter
+Blue Fighter
+
+The app:
+
+Compares both fighters.
+Calculates scores using your rule-based logic.
+Displays the predicted winner's name.
+Explains why that fighter was predicted.
+
+Example:
+
+Red Fighter : Max Holloway
+
+Blue Fighter : Dustin Poirier
+
+-----------------------
+
+Prediction Score
+
+Max Holloway : 9
+
+Dustin Poirier : 6
+
+-----------------------
+
+🏆 Predicted Winner
+
+🥇 Max Holloway
+
+Reason
+
+✔ Better reach
+✔ Better striking accuracy
+✔ Better win streak
+✔ Younger fighter
+📋 Dashboard 7: About / Project Information
+
+Purpose: Explain the project.
+
+Include:
+
+Scenario
+Problem statement
+Objectives
+Technologies used
+Dataset information
+Workflow diagram
+Your conclusion
+Sidebar Layout
+🥊 UFC Fight Outcome Prediction
+
+🏠 Home
+
+📊 Dataset Overview
+
+📈 Exploratory Data Analysis
+
+🔴 Red vs Blue Comparison
+
+👤 Fighter Search
+
+🏆 Winner Prediction
+
+📋 About Project
+
