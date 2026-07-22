@@ -3,165 +3,32 @@ import numpy as np
 import streamlit as st
 import plotly.graph_objects as go
 
+from style import page_header, section_title
 
 
-st.logo("harry.png",size="large",icon_image="harry.png")
+def render_fighter_search():
+    df = pd.read_csv("train_data_cleaned.csv")
+    df["date"] = pd.to_datetime(df["date"])
 
+    page_header("🔍", "Fighter Search", "Look up any fighter's career profile and recent form")
 
-def load_css():
-    st.markdown("""
-    <style>
-    .block-container{ padding-top:1.5rem; }
+    all_fighters = pd.concat([df["R_fighter"], df["B_fighter"]]).unique()
+    all_fighters = sorted(all_fighters)
 
-    section[data-testid="stSidebar"]{ background-color:#0d0d0d; }
-    section[data-testid="stSidebar"] *{ color:#f2f2f2 !important; }
-     [data-testid="stSidebar"] [data-testid="stLogo"]{
-        display:block;
-        margin:20px auto 10px auto;
-    }
-    [data-testid="stSidebar"] [data-testid="stLogo"] img{
-        height:auto !important;
-        max-height:90px !important;
-        width:auto !important;
-        max-width:88% !important;
-    }
-    
+    selected_fighter = st.selectbox("Select Fighter", all_fighters)
 
-    section[data-testid="stSidebar"] [data-testid="stSidebarNav"] a{
-        border-radius:8px; padding:8px 12px; margin:2px 8px;
-    }
-    section[data-testid="stSidebar"] [data-testid="stSidebarNav"] a:hover{
-        background-color:rgba(225,6,0,.15);
-    }
-    section[data-testid="stSidebar"] [data-testid="stSidebarNav"] a[aria-current="page"]{
-        background-color:#E10600 !important; color:white !important; font-weight:600;
-    }
+    red_fights = df[df["R_fighter"] == selected_fighter].copy()
+    red_fights["corner"] = "R"
+    blue_fights = df[df["B_fighter"] == selected_fighter].copy()
+    blue_fights["corner"] = "B"
 
-    .page-header{ display:flex; align-items:center; gap:12px; margin-bottom:22px; }
-    .page-header .bar{ width:6px; height:36px; background:#E10600; border-radius:3px; box-shadow:0 0 12px rgba(225,6,0,.55); }
-    .page-header h1{ font-size:28px; font-weight:800; margin:0; color:#111; }
-    .page-header p{ margin:2px 0 0 0; color:#808080; font-size:14px; }
+    fights = pd.concat([red_fights, blue_fights])
+    fights = fights.sort_values("date")
 
-    div[data-testid="stVerticalBlockBorderWrapper"]{
-        border-radius:16px !important;
-        border:1px solid #eeeeee !important;
-        box-shadow:0 5px 15px rgba(0,0,0,.06);
-    }
+    if fights.empty:
+        st.warning("No data found for this fighter.")
+        return
 
-    div[data-testid="stMetric"]{
-        background:#fafafa;
-        border-radius:12px;
-        padding:10px 14px;
-        border:1px solid #f0f0f0;
-    }
-    div[data-testid="stMetricValue"]{ color:#111; font-weight:800; }
-    div[data-testid="stMetricLabel"]{ color:#777; font-weight:600; }
-
-    .section-title{
-        font-size:15px; font-weight:700; color:#111;
-        margin:2px 0 12px 2px; display:flex; align-items:center; gap:8px;
-    }
-    .section-title .dot{ width:8px; height:8px; border-radius:50%; background:#E10600; }
-
-    .avatar-circle{
-        width:130px; height:130px; border-radius:50%;
-        background:linear-gradient(135deg,#E10600,#7a0000);
-        display:flex; align-items:center; justify-content:center;
-        color:white; font-size:52px; font-weight:800;
-        margin:0 auto 14px auto;
-        box-shadow:0 8px 20px rgba(225,6,0,.35);
-    }
-
-    .fighter-name{ text-align:center; font-size:22px; font-weight:800; color:#111; margin-bottom:4px; }
-    .fighter-stance{ text-align:center; color:#888; font-size:13px; }
-    
-    /* ============ PREMIUM BACKGROUND UPGRADE ============ */
-    [data-testid="stAppViewContainer"]{
-        background:
-            radial-gradient(circle at 6% 8%, rgba(225,6,0,0.07), transparent 28%),
-            radial-gradient(circle at 96% 4%, rgba(30,111,224,0.06), transparent 30%),
-            radial-gradient(circle at 90% 92%, rgba(225,6,0,0.05), transparent 32%),
-            radial-gradient(circle at 4% 96%, rgba(138,63,252,0.05), transparent 30%),
-            linear-gradient(180deg, #fbfbfc 0%, #f3f4f6 100%) !important;
-        background-attachment: fixed;
-    }
-
-    [data-testid="stAppViewContainer"] > .main::before{
-        content:"";
-        position:fixed;
-        inset:0;
-        background-image: radial-gradient(rgba(0,0,0,0.035) 1px, transparent 1px);
-        background-size: 24px 24px;
-        pointer-events:none;
-        z-index:0;
-    }
-
-    [data-testid="stAppViewContainer"] .block-container{
-        position:relative;
-        z-index:1;
-    }
-
-    section[data-testid="stSidebar"]{
-        background: radial-gradient(circle at 50% -10%, #2a0000 0%, #0d0d0d 55%) !important;
-        box-shadow: 4px 0 24px rgba(0,0,0,.35);
-    }
-
-    div[data-testid="stVerticalBlockBorderWrapper"]{
-        background: rgba(255,255,255,0.82) !important;
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
-    }
-
-    .metric-card{
-        background: rgba(255,255,255,0.88) !important;
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
-    }
-
-    </style>
-    """, unsafe_allow_html=True)
-
-
-load_css()
-
-
-def page_header(icon, title, subtitle):
-    st.markdown(f"""
-    <div class="page-header">
-        <div class="bar"></div>
-        <div>
-            <h1>{icon} {title}</h1>
-            <p>{subtitle}</p>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-
-def section_title(text):
-    st.markdown(f'<div class="section-title"><span class="dot"></span>{text}</div>', unsafe_allow_html=True)
-
-
-df = pd.read_csv("train_data_cleaned.csv")
-df["date"] = pd.to_datetime(df["date"])
-
-page_header("🔍", "Fighter Search", "Look up any fighter's career profile and recent form")
-
-all_fighters = pd.concat([df["R_fighter"], df["B_fighter"]]).unique()
-all_fighters = sorted(all_fighters)
-
-selected_fighter = st.selectbox("Select Fighter", all_fighters)
-
-red_fights = df[df["R_fighter"] == selected_fighter].copy()
-red_fights["corner"] = "R"
-blue_fights = df[df["B_fighter"] == selected_fighter].copy()
-blue_fights["corner"] = "B"
-
-fights = pd.concat([red_fights, blue_fights])
-fights = fights.sort_values("date")
-
-if fights.empty:
-    st.warning("No data found for this fighter.")
-else:
     total_fights = len(fights)
     wins = len(fights[fights["Winner"] == selected_fighter])
     losses = total_fights - wins
@@ -221,7 +88,6 @@ else:
     str_acc_diff = sig_strike_acc - opp_sig_strike_acc
     kd_avg = np.mean(kd_list)
     td_accuracy = np.mean(td_acc_list) * 100
-    td_avg = np.mean(td_landed_list)
     sub_avg = np.mean(sub_att_list)
     if len(td_def_list) > 0:
         td_defense = np.mean(td_def_list) * 100
@@ -234,10 +100,6 @@ else:
         finish_rate = (finishes / wins) * 100
     else:
         finish_rate = 0
-
-    performance_score = (sig_strike_acc * 0.3) + (td_accuracy * 0.2) + (win_percent * 0.4) + (finish_rate * 0.1)
-    if performance_score > 100:
-        performance_score = 100
 
     st.write("")
     with st.container(border=True):
@@ -309,10 +171,14 @@ else:
             fillcolor="rgba(225,6,0,0.25)"
         ))
         fig.update_layout(
-            polar=dict(radialaxis=dict(visible=True, range=[0, 100])),
+            polar=dict(
+                radialaxis=dict(visible=True, range=[0, 100], tickfont=dict(color="#555555")),
+                angularaxis=dict(tickfont=dict(color="#222222", size=12)),
+            ),
             showlegend=False,
             height=400,
             paper_bgcolor="white",
+            font=dict(color="#333333"),
             margin=dict(t=10, b=10, l=10, r=10)
         )
         st.plotly_chart(fig, use_container_width=True)
