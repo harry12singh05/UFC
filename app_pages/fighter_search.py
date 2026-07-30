@@ -114,7 +114,7 @@ def render_fighter_search():
         with col2:
             section_title("Personal Information")
             c1, c2 = st.columns(2)
-            c1.metric("Age", f"{age:.0f}")
+            c1.metric("Age (Last Fight)", f"{age:.0f}")
             c1.metric("Weight (lbs)", f"{weight:.0f}")
             c2.metric("Height (cm)", f"{height:.1f}")
             c2.metric("Reach (cm)", f"{reach:.1f}")
