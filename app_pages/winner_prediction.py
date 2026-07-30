@@ -113,7 +113,7 @@ def render_winner_prediction():
         section_title("Fighter Comparison")
 
         comparison_table = pd.DataFrame({
-            "Feature": ["Age", "Height (cm)", "Weight (lbs)", "Reach (cm)", "Total Fights",
+            "Feature": ["Age (Last Fight)", "Height (cm)", "Weight (lbs)", "Reach (cm)", "Total Fights",
                         "Wins", "Win %", "Win Streak", "Sig. Strike Accuracy",
                         "Takedown Accuracy", "Takedown Defense", "Finish Rate"],
             f"{red['name']} (Red)": [
