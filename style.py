@@ -124,11 +124,13 @@ def load_css():
     }
 
     /* ---------- Fighter Search ---------- */
-    div[data-testid="stMetric"]{
+    [data-testid="stMetric"]{
         background:#fafafa; border-radius:12px; padding:10px 14px; border:1px solid #f0f0f0;
     }
-    div[data-testid="stMetricValue"]{ color:#111; font-weight:800; }
-    div[data-testid="stMetricLabel"]{ color:#777; font-weight:600; }
+    [data-testid="stMetricValue"]{ color:#111 !important; font-weight:800; }
+    [data-testid="stMetricValue"] *{ color:#111 !important; }
+    [data-testid="stMetricLabel"]{ color:#777 !important; font-weight:600; }
+    [data-testid="stMetricLabel"] *{ color:#777 !important; }
 
     .avatar-circle{
         width:130px; height:130px; border-radius:50%;
