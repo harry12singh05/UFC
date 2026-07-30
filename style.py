@@ -50,7 +50,7 @@ def load_css():
     .hero p{ font-size:17px; color:#dddddd; line-height:1.6; margin:0; }
 
     /* ---------- Welcome text (Home) ---------- */
-    .welcome-title{ font-size:22px; font-weight:700; margin-bottom:6px; }
+    .welcome-title{ font-size:22px; font-weight:700; margin-bottom:6px; color:#111111; }
     .welcome-text{ color:#555555; font-size:15px; margin-bottom:25px; max-width:900px; }
 
     /* ---------- Page header (all other pages) ---------- */
@@ -268,5 +268,14 @@ def style_fig(fig, height=320):
         showlegend=False,
         title=dict(font=dict(size=15, color="#111111")),
         font=dict(color="#333333"),
+        legend=dict(font=dict(color="#333333")),
+        xaxis=dict(
+            tickfont=dict(color="#333333"),
+            title_font=dict(color="#333333"),
+        ),
+        yaxis=dict(
+            tickfont=dict(color="#333333"),
+            title_font=dict(color="#333333"),
+        ),
     )
     return fig
