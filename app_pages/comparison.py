@@ -1,3 +1,4 @@
+
 import pandas as pd
 import streamlit as st
 import plotly.express as px
@@ -18,9 +19,9 @@ def render_comparison():
 
     c1, c2, c3, c4 = st.columns(4)
     with c1:
-        metric_card("🔴", "icon-red", f"{red_age:.2f}", "Avg Age")
+        metric_card("🔴", "icon-red", f"{red_age:.2f}", "Avg Age (Last Fight)")
     with c2:
-        metric_card("🔵", "icon-blue", f"{blue_age:.2f}", "Avg Age")
+        metric_card("🔵", "icon-blue", f"{blue_age:.2f}", "Avg Age (Last Fight)")
     with c3:
         metric_card("🔴", "icon-red", f"{red_reach:.2f}", "Avg Reach")
     with c4:
@@ -46,7 +47,7 @@ def render_comparison():
                 name="Blue",
                 marker_color=BLUE
             ))
-            fig.update_layout(title="Average Physical Attributes", barmode="group")
+            fig.update_layout(title="Average Physical Attributes (Age as of Last Fight)", barmode="group")
             fig = style_fig(fig)
             fig.update_layout(showlegend=True)
             st.plotly_chart(fig, use_container_width=True)
@@ -77,7 +78,8 @@ def render_comparison():
         "Corner": ["Red"] * len(df) + ["Blue"] * len(df)
     })
     fig3 = px.box(age, x="Corner", y="Age", color="Corner", color_discrete_map={"Red": RED, "Blue": BLUE})
-    fig3.update_layout(title="Age Comparison")
+    fig3.update_layout(title="Age Comparison (at Last Fight)")
+    fig3.update_yaxes(title_text="Age (Last Fight)")
     with col1:
         with st.container(border=True):
             st.plotly_chart(style_fig(fig3), use_container_width=True)
